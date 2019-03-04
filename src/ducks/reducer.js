@@ -10,22 +10,24 @@ const initialState ={
     url: 'http://via.placeholder.com/450x450'
 }
 
-const CREATE_USER = 'CREATE_USER';
+const SET_ATTRIBUTE = 'SET_ATTRIBUTE';
+
 
 //action builder 
-export function registerUser(userObj){
+export function setAttribute(userAttr){
     return {
-        type: CREATE_USER,
-        payload: userObj
+        type: SET_ATTRIBUTE,
+        payload: userAttr
     }
 }
 
 export default function reducer (state = initialState, action) {
     const { type, payload } = action; 
     switch(type){
-        case CREATE_USER:
-            const {firstname, lastname, username, email, phonenumber} = payload;
-            return {...state, firstname, lastname, username, email, phonenumber};
+        case SET_ATTRIBUTE:
+        state={...state, ...payload}
+        console.log("reducer", state, payload)
+        return state
         default:
             return state;
     }

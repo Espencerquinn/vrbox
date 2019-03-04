@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Header from '../../Components/Header/Header'
 
 const styles = theme => ({
   main: {
@@ -34,7 +35,7 @@ const styles = theme => ({
   },
   avatar: {
     margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#33ccff"
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -51,27 +52,32 @@ function SignIn(props) {
     let{loginFn, handleChangeFn, username, password} = props;
 
   return (
+    <div classname="container">
+    <Header/>
     <main className={classes.main}>
+      
       <CssBaseline />
       <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
+        
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
         <form className={classes.form}>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Username</InputLabel>
+            <InputLabel htmlFor="email" >Username</InputLabel>
             <Input 
                 id="email" 
                 name="email" 
                 autoComplete="email" 
                 autoFocus 
+                
                 onChange={ e => handleChangeFn('username', e.target.value)}
                 />
           </FormControl>
-          <FormControl margin="normal" required fullWidth>
+          <FormControl margin="normal" required fullWidth backgroundColor="secondary">
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input 
                 name="password" 
@@ -82,14 +88,17 @@ function SignIn(props) {
                 />
           </FormControl>
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox value="remember" style={{color:"#33ccff"}} />}
             label="Remember me"
           />
           <Button
             type="button"
             fullWidth
             variant="contained"
-            color="primary"
+            style={{
+              backgroundColor:"#33ccff",
+              text:"white"
+            }}
             className={classes.submit}
             onClick={()=> loginFn(username, password)}
           >
@@ -98,6 +107,7 @@ function SignIn(props) {
         </form>
       </Paper>
     </main>
+    </div>
   );
 }
 

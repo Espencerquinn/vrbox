@@ -7,6 +7,27 @@
     text-decoration: none;
 }
 
+.background {
+  z-index: -3;
+  position: absolute;
+  width: 100%;
+  background:#c0392b;
+  background:linear-gradient(to right, #c0392b, #8e44ad);
+}
+
+.particles {
+  opacity: .2;
+ 
+}
+
+.headertext{
+  color:white !important;
+}
+
+.album-heroContent-84{
+  color:white !important
+}
+
 .buttons {
     display: flex;
 }

@@ -15,8 +15,8 @@ export default class howitworks extends Component {
                         <img 
                         src={step1} 
                         height="70px"
-                        width="auto;" 
-                        atl= "Logo" 
+                        width="auto;"
+                        alt="step1" 
                         className="step"/>
                     </div>
                     <div className="description">
@@ -26,10 +26,10 @@ export default class howitworks extends Component {
                 <div className="step2">
                     <div className="image">
                         <img 
+                        alt= "Step 2" 
                         src={step2} 
                         height="70px"
                         width="auto;" 
-                        atl= "Logo" 
                         className="step"/>
                     </div>
                     <div className="description">
@@ -42,7 +42,7 @@ export default class howitworks extends Component {
                         src={step3} 
                         height="70px" 
                         width="auto;" 
-                        atl= "Logo" 
+                        alt= "Step3" 
                         className="step"
                         />
                     </div>

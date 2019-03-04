@@ -1,29 +1,31 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {connect} from 'react-redux'
-import {updateUser} from './../../ducks/reducer';
-import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Album from '../../Components/Album/Album'
 import AppHeader from '../../Components/AppHeader/AppHeader'
+import Typography from '@material-ui/core/Typography';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Footer from '../../Components/Footer/Footer'
+
+
+
 import './Dashboard.css';
+
+function getModalStyle() {
+  const top = 50 
+  const left = 50 
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 const styles = theme => ({
     card: {
@@ -49,31 +51,35 @@ const styles = theme => ({
     avatar: {
       backgroundColor: red[500],
     },
+    paper: {
+      position: 'absolute',
+      width: theme.spacing.unit * 50,
+      backgroundColor: theme.palette.background.paper,
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing.unit * 4,
+      outline: 'none',
+    },
   });
   
-
-
 class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             propertyList:[],
+            open: false,
             id: '{user.id}',
-            firstname: '',
-            lastname:'',
-            username: '',
-            email: '',
-            phonenumber:'',
-            password: '',
             disabled: true,
-            selectedUserId:"",
-            userFullname:"",
-            selectedUserId: "",
-            userEmail: "",
-            userphonenumber: "",
+            message: {
+              to: '',
+              body: ''
+            },
+            submitting: false,
+            error: false,
             user: {}
         }
         this.deleteProperty = this.deleteProperty.bind(this)
+        this.onHandleChange = this.onHandleChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentDidMount(){
@@ -93,7 +99,8 @@ class Dashboard extends Component {
                     propertyList: res.data
                 })
             })
-          .catch(err => console.log("error:". err))
+
+            .catch(err => console.log("error:"+ err))
           
     
         }
@@ -102,6 +109,13 @@ class Dashboard extends Component {
         this.setState({
             [prop]:val
         })
+    }
+
+    onHandleChange(event) {
+      const name = event.target.getAttribute('name');
+      this.setState({
+        message: { ...this.state.message, [name]: event.target.value }
+      });
     }
 
     logout = () => {
@@ -115,6 +129,13 @@ class Dashboard extends Component {
       })
   }
  
+    handleOpen = () => {
+      this.setState({ open: true });
+    };
+
+    handleClose = () => {
+      this.setState({ open: false });
+    };
 
     deleteProperty(id){
         axios.delete(`/api/properties/${id}`)
@@ -125,12 +146,42 @@ class Dashboard extends Component {
         })
     }
 
+    onSubmit(event) {
+      console.log('submit')
+      event.preventDefault();
+      this.setState({ submitting: true });
+      fetch('/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.message)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            this.setState({
+              error: false,
+              submitting: false,
+              message: {
+                to: '',
+                body: ''
+              }
+            });
+          } else {
+            this.setState({
+              error: true,
+              submitting: false
+            });
+          }
+        });
+    }
+
+
     render() {
-    console.log(this.state)
-    const {classes} = this.props;
-    const {propertyList, user, firstname}= this.state
-    console.log("user",this.state.user)
-    console.log(propertyList)
+    console.log('showmethemoney',this.state)
+    const {propertyList, user }= this.state
+    const { classes } = this.props
         return (
             <div>
             <AppHeader
@@ -140,7 +191,55 @@ class Dashboard extends Component {
             deletePropertyFn={this.deleteProperty}
             propertyList={propertyList}
             userFirstName={user.firstname}
+            openModal={this.handleOpen}
             />
+            <Footer/>
+            <Modal
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              open={this.state.open}
+              onClose={this.handleClose}
+            >
+              <div style={getModalStyle()} className={classes.paper}>
+                <Typography variant="h6" id="modal-title" gutterBottom>
+                  Send a VR link to a client
+                </Typography>
+                <Grid container spacing={24}
+                justify="center"
+                alignItems="center">
+                <Grid item xs={12}
+                
+                >
+                <TextField
+                id="outlined-textarea"
+                label="Phone Number"
+                placeholder="+1(000) 000-000"
+                type="tel"
+                name="to"
+                value={this.state.message.to}
+                onChange={(e)=>this.onHandleChange(e)}
+                />
+                
+                <TextField
+                id="outlined-textarea"
+                label="Message"
+                placeholder="Placeholder"
+                multiline
+                className={classes.textField}
+                margin="normal"
+                variant="outlined"
+                name="body"
+                value={this.state.message.body}
+                onChange={(e)=>this.onHandleChange(e)}
+                
+                />
+                </Grid>
+                </Grid>
+                <Button  
+                onClick={(e)=>this.onSubmit(e)}>Send</Button>
+                </div>
+              </Modal>
+              
             </div> 
         )  
     
@@ -151,6 +250,8 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
     classes: PropTypes.object.isRequired,
   };
+
+
   
   export default withStyles(styles)(Dashboard);
   

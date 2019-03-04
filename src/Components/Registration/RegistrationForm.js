@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -13,6 +11,10 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
 import blacklogo from './blacklogo.png'
 import Profile from './Profile';
+import {connect} from 'react-redux';
+import axios from 'axios';
+
+
 
 // import Review from './Review';
 
@@ -58,11 +60,11 @@ const steps = ['Personal Info', 'Profile Picture', ];
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <AddressForm
+      // setAttributeFn= {(key, value)=>{setAttribute(key,value)}}
+      />;
     case 1:
       return <Profile />;
-    case 2:
-      // return <Review />;
     default:
       throw new Error('Unknown step');
   }
@@ -79,6 +81,24 @@ class RegistrationForm extends React.Component {
     }));
   };
 
+
+  handlePost = async() => {
+    console.log('were here')
+   const res = await axios.post('/api/registerUser', this.props.userObj)
+  console.log(res)
+  }
+
+  handleNextSubmit = () => {
+    if (this.state.activeStep === 0){
+      this.handleNext()
+    }
+    else {
+      this.handlePost()
+    }
+  }
+
+  
+
   handleBack = () => {
     this.setState(state => ({
       activeStep: state.activeStep - 1,
@@ -91,23 +111,26 @@ class RegistrationForm extends React.Component {
     });
   };
 
+  handleChange= (prop, val) => {
+    this.setState({
+        [prop]:val
+    })
+}
+
+  setAttribute= (key, value) => {
+    console.log(key, value)
+  }
+
   render() {
     const { classes } = this.props;
     const { activeStep } = this.state;
-
     return (
       <React.Fragment>
         <CssBaseline />
-        {/* <AppBar position="absolute" color="default" className={classes.appBar}> */}
-          {/* <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-              Company name
-            </Typography>
-          </Toolbar>
-        </AppBar> */}
+        
         <main className={classes.layout}>
           <Paper className={classes.paper}>
-          <img src={blacklogo} height="40px"width="auto;" atl= "Logo" className="logo"/>
+          <img src={blacklogo} height="40px"width="auto;" alt= "Logo" className="logo"/>
             <Typography component="h1" variant="h5" align="center">
               Registration
             </Typography>
@@ -140,7 +163,7 @@ class RegistrationForm extends React.Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={this.handleNext}
+                      onClick={this.handleNextSubmit}
                       className={classes.button}
                     >
                       {activeStep === steps.length - 1 ? 'Sign Up' : 'Next'}
@@ -156,8 +179,16 @@ class RegistrationForm extends React.Component {
   }
 }
 
+let mapStateToProps = state => {
+  return {
+    userObj: state
+  }
+}
+
+const RegistrationFormConnect = connect (mapStateToProps)(RegistrationForm);
+
 RegistrationForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(RegistrationForm);
+export default withStyles(styles)(RegistrationFormConnect);

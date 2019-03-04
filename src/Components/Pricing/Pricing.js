@@ -1,8 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,9 +7,17 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import StarIcon from '@material-ui/icons/StarBorder';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import AppHeader from '../AppHeader/AppHeader'
+import Low from '../Checkout/Low'
+import Medium from '../Checkout/Medium'
+import Large from '../Checkout/Large'
+import Pano from '../Pricing/3dpano.png'
+import Box from '../Pricing/expertbox.png'
+import Small from '../Pricing/smallCamera.png'
+
+// import 3dpano from '/3dpano'
 
 const styles = theme => ({
   '@global': {
@@ -64,56 +69,54 @@ const styles = theme => ({
 
 const tiers = [
   {
-    title: 'Free',
-    price: '0',
-    description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
-    buttonText: 'Sign up for free',
+    title: 'Starter Kit',
+    subheader: 'Do it yourself',
+    price: '10',
+    description: [
+      'Download the App', 
+      'Unlimited Uploads', 
+      'Email Support', 
+      'Image Consulting'],
+    buttonText: 'Dowload the app',
     buttonVariant: 'outlined',
+    checkout: <Low/>,
+    img: <img src={Pano} height="150px"width="100%;" alt= "Logo"  className="logo"/>
   },
   {
-    title: 'Pro',
+    title: 'Pro Rental',
     subheader: 'Most popular',
-    price: '15',
+    price: '100',
     description: [
-      '20 users included',
-      '10 GB of storage',
+      'High',
+      'Perfet for DIY',
       'Help center access',
-      'Priority email support',
+      'Phone Support',
     ],
-    buttonText: 'Get started',
+    buttonText: 'Rent Camera Today',
     buttonVariant: 'contained',
+    checkout: <Medium/>,
+    img: <img src={Small} height="150px"width=";" alt= "Logo"  className="logo"/>
+
+
   },
   {
-    title: 'Enterprise',
-    price: '30',
+    title: 'Hire a Pro',
+    subheader: 'Highest Quality',
+    price: '1000',
     description: [
-      '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',
+      '3 Day turn around',
+      'Professional Photographer',
+      '24 hour image processing',
+      'Priority Phone support',
     ],
     buttonText: 'Contact us',
     buttonVariant: 'outlined',
+    checkout: <Large/>,
+    img: <img src={Box} height="150px"width="100%;" alt= "Logo"  className="logo"/>
+
   },
 ];
-const footers = [
-  {
-    title: 'Company',
-    description: ['Team', 'History', 'Contact us', 'Locations'],
-  },
-  {
-    title: 'Features',
-    description: ['Cool stuff', 'Random feature', 'Team feature', 'Developer stuff', 'Another one'],
-  },
-  {
-    title: 'Resources',
-    description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
-  },
-  {
-    title: 'Legal',
-    description: ['Privacy policy', 'Terms of use'],
-  },
-];
+
 
 function Pricing(props) {
   const { classes } = props;
@@ -121,28 +124,21 @@ function Pricing(props) {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="static" color="default" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-            Company name
-          </Typography>
-          <Button>Features</Button>
-          <Button>Enterprise</Button>
-          <Button>Support</Button>
-          <Button color="primary" variant="outlined">
-            Login
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <AppHeader/>
       <main className={classes.layout}>
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-            Pricing
+            Options for any budget
           </Typography>
           <Typography variant="h6" align="center" color="textSecondary" component="p">
-            Quickly build an effective pricing table for your potential customers with this layout.
-            It&apos;s built with default Material-UI components with little customization.
+            Take pictures yourself, 
+          </Typography>
+          <Typography variant="h6" align="center" color="textSecondary" component="p">
+            rent a camera,
+          </Typography>
+          <Typography variant="h6" align="center" color="textSecondary" component="p">
+            or hire a Pro
           </Typography>
         </div>
         {/* End hero unit */}
@@ -162,10 +158,13 @@ function Pricing(props) {
                 <CardContent>
                   <div className={classes.cardPricing}>
                     <Typography component="h2" variant="h3" color="textPrimary">
+                       {tier.img}
+                       <br></br>
                       ${tier.price}
                     </Typography>
+                    
                     <Typography variant="h6" color="textSecondary">
-                      /mo
+                      
                     </Typography>
                   </div>
                   {tier.description.map(line => (
@@ -174,10 +173,10 @@ function Pricing(props) {
                     </Typography>
                   ))}
                 </CardContent>
-                <CardActions className={classes.cardActions}>
-                  <Button fullWidth variant={tier.buttonVariant} color="primary">
-                    {tier.buttonText}
-                  </Button>
+                    {tier.checkout}
+                    
+                <CardActions className={classes.cardActions}
+                 >
                 </CardActions>
               </Card>
             </Grid>
@@ -185,23 +184,7 @@ function Pricing(props) {
         </Grid>
       </main>
       {/* Footer */}
-      <footer className={classNames(classes.footer, classes.layout)}>
-        <Grid container spacing={32} justify="space-evenly">
-          {footers.map(footer => (
-            <Grid item xs key={footer.title}>
-              <Typography variant="h6" color="textPrimary" gutterBottom>
-                {footer.title}
-              </Typography>
-              {footer.description.map(item => (
-                <Typography key={item} variant="subtitle1" color="textSecondary">
-                  {item}
-                </Typography>
-              ))}
-            </Grid>
-          ))}
-        </Grid>
-      </footer>
-      {/* End footer */}
+      
     </React.Fragment>
   );
 }

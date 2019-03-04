@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -70,7 +68,7 @@ class UpdateProfile extends React.Component {
         <main className={classes.layout}>
         
           <Paper className={classes.paper}>
-            <img className="userpic"src={userProfilePic}></img>
+            <img alt="userpic" className="userpic" src={userProfilePic}></img>
             <Typography component="h1" variant="h5" align="center">
               UpdateProfile
             </Typography>
@@ -148,7 +146,6 @@ class UpdateProfile extends React.Component {
                       variant="contained"
                       color="primary"
                       type="button"
-                      onClick={this.handleNext}
                       className={classes.button}
                       onClick={() =>updateUserFn(id)}
                       

@@ -6,8 +6,8 @@ export default class videoBackground extends Component {
   render() {
     return (
       <div className="videoTop">
-          <div class="Header">
-          Affordable 3D Walkthroughs 
+          <div className="Header">
+          Sell Luxury Homes Faster 
           </div>
           
           <div class="overlay">

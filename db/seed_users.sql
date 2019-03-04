@@ -6,7 +6,7 @@ CREATE TABLE vrusers (
     email varchar(50),
     phonenumber varchar(10),
     password varchar(100),
-    url varchar(500)
+    url varchar(500),
     property_id INTEGER REFERENCES vrproperties(id)
 )
 

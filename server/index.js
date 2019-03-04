@@ -3,10 +3,24 @@ const express = require("express");
 const massive = require("massive");
 const ctrl = require('./controller');
 const sessions = require('express-session')
+const bodyParser = require('body-parser');
+const cors = require('cors');
+// const pino = require('express-pino-logger')();
 
-const { SERVER_PORT, DB_CONNECTION, SESSION_SECRET, SID, AUTH } = process.env;
+// const app =rs module.exports = express();
+
+
+const { SERVER_PORT, DB_CONNECTION, SESSION_SECRET, SID, AUTH, SECRET_KEY } = process.env;
+const stripe = require('stripe')(SECRET_KEY)
 
 const app = express();
+
+//body parser & cors
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors())
+// app.use(pino);
+
 
 //setting up twilio 
 
@@ -14,13 +28,13 @@ const accountSid = SID;
 const authToken = AUTH;
 const client = require('twilio')(accountSid, authToken);
 
-client.messages
-  .create({
-     body: 'Is this working',
-     from: '+14804053025',
-     to: '+4804031577'
-   })
-  .then(message => console.log(message.sid));
+// client.messages
+//   .create({
+//      body: 'Is this working',
+//      from: '+14804053025',
+//      to: '+4804031577'
+//    })
+//   .then(message => console.log(message.sid));
 
 
 
@@ -99,5 +113,23 @@ app.post('/auth/login', ctrl.login);
 app.post('/auth/logout', ctrl.logout);
 app.get('/api/user', ctrl.getUser);
 
-//logout
+//stripe
+app.post('/api/payment', ctrl.chargeUser)
 
+//twilio
+app.post('/api/messages', (req, res) => {
+  res.header('Content-Type', 'application/json');
+  client.messages
+    .create({
+      from: '+14804053025',
+      to: req.body.to,
+      body: req.body.body
+    })
+    .then(() => {
+      res.send(JSON.stringify({ success: true }));
+    })
+    .catch(err => {
+      console.log(err);
+      res.send(JSON.stringify({ success: false }));
+    });
+});

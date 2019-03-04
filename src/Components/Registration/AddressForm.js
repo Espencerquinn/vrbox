@@ -2,94 +2,96 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import {connect} from 'react-redux'
-import {registerUser} from '../../ducks/reducer'
+import {setAttribute} from '../../ducks/reducer'
 
 
 
-function AddressForm() {
+class AddressForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeStep: 0,
+    }
+  }
 
-  // firstName (e) {
-    // this.props.registerUser({firstName: e.target.value})}
+  render () {
+    return (
+      <React.Fragment>
+        <Typography variant="h6" gutterBottom>
+        </Typography>
+        <Grid container spacing={24}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="firstName"
+              name="firstName"
+              label="First name"
+              fullWidth
+              autoComplete="fname"
+              // onChange={ e => handleChangeFn('firstname', e.target.value)}
+              onBlur={(e) => this.props.setAttribute({firstname: e.target.value})}
+              />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="lastName"
+              name="lastname"
+              label="Last name"
+              fullWidth
+              autoComplete="lname"
+              // onChange={ e => handleChangeFn('lastName', e.target.value)}
+              onBlur={(e) => this.props.setAttribute({lastname: e.target.value})}
 
-  return (
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="Username"
+              name="Username"
+              label="Username"
+              fullWidth
+              autoComplete="Username"
+              // onChange={ e => handleChangeFn('Username', e.target.value)}
+              onBlur={(e) => this.props.setAttribute({username: e.target.value})}
 
-    
-  
-    <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-      </Typography>
-      <Grid container spacing={24}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="firstName"
-            name="firstName"
-            label="First name"
-            fullWidth
-            autoComplete="fname"
-            // onChange={(e) => this.firstName(e)}
-          />
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="Email"
+              name="Email"
+              label="Email"
+              fullWidth
+              autoComplete="Phone Number"
+              // onChange={ e => handleChangeFn('Email', e.target.value)}
+              onBlur={(e) => this.props.setAttribute({email: e.target.value})}
+
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="Phone Number"
+              name="Phone Number"
+              label="Phone Number"
+              fullWidth
+              autoComplete="Phone Number"
+              // onChange={ e => handleChangeFn('Phone Number', e.target.value)}
+              onBlur={(e) => this.props.setAttribute({phonenumber: e.target.value})}
+
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="lastName"
-            name="lastName"
-            label="Last name"
-            fullWidth
-            autoComplete="lname"
-            // onChange={e => handleChangeFn('lastname', e.target.value)}
-
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="Username"
-            name="Username"
-            label="Username"
-            fullWidth
-            autoComplete="Username"
-            // onChange={e => handleChangeFn('username', e.target.value)}
-
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="Email"
-            name="Email"
-            label="Email"
-            fullWidth
-            autoComplete="Phone Number"
-            // onChange={e => handleChangeFn('email', e.target.value)}
-
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="Phone Number"
-            name="Phone Number"
-            label="Phone Number"
-            fullWidth
-            autoComplete="Phone Number"
-            // onChange={e => handleChangeFn('phonenumber', e.target.value)}
-
-          />
-        </Grid>
-       
-        
-        
-      </Grid>
-    </React.Fragment>
-  );
+      </React.Fragment>
+    );
+  }
 }
 
 let mapDispatchToProps = {
-  registerUser
+  setAttribute 
 }
 
 export default connect (null, mapDispatchToProps)(AddressForm);

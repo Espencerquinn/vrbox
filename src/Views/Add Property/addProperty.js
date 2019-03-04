@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { v4 as randomString } from 'uuid';
-import Dropzone from 'react-dropzone';
-import { GridLoader } from 'react-spinners';
+import AppHeader from '../../Components/AppHeader/AppHeader'
+import Footer from '../../Components/Footer/Footer'
 
 class addProperty extends Component {
     constructor(props) {
@@ -49,6 +48,7 @@ postProperty(){
         const {name, address, city, state, zip, price, vrlink } =this.state;
         return (
             <div className='Login'>
+                <AppHeader/>
                 <input
                     value={name}
                     onChange={e => this.handleChange('name', e.target.value)}
@@ -85,7 +85,7 @@ postProperty(){
                     placeholder= "vrlink"
                 />    
                 <button onClick={this.postProperty}>Create New User</button>
-            
+            <Footer/>
             </div>
         )
     }

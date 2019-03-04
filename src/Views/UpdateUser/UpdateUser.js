@@ -3,6 +3,8 @@ import axios from 'axios'
 import InputMask from "react-input-mask"
 import {Link} from 'react-router-dom'
 import UpdateProfile from '../../Components/Update Profile/UpdateProfile'
+import Footer from '../../Components/Footer/Footer'
+import AppHeader from '../../Components/AppHeader/AppHeader'
 
 class UpdateUser extends Component {
     constructor(props) {
@@ -19,7 +21,6 @@ class UpdateUser extends Component {
             disabled: true,
             selectedUserId:"",
             userFullname:"",
-            selectedUserId: "",
             userEmail: "",
             userphonenumber: "",
             user: {}
@@ -38,9 +39,8 @@ class UpdateUser extends Component {
           console.log("SESSION", res.data.user)
             this.setState({user: res.data.user})
         })
-        .catch(err => console.log("error:". err))
+        .catch(err => console.log("error:".err))
   }
-
 
  updateUser () {
     console.log("updateusercheck",this.state.user.id)
@@ -71,6 +71,7 @@ handleChange= (prop, val) => {
     return (
           
           <div>
+            <AppHeader/>
             <div className="Update_User">
               <div />
               <UpdateProfile
@@ -135,6 +136,7 @@ handleChange= (prop, val) => {
                     <Link to='/'><button className='form-button' onClick={() => this.handleClear()}>Cancel</button></Link>
                     <button className='form-button'onClick={() => this.updateUser()}>Save Changes</button>
             </div>
+            <Footer/>
           </div>
     );
   }

@@ -3,9 +3,9 @@ import axios from 'axios';
 import { v4 as randomString } from 'uuid';
 import Dropzone from 'react-dropzone';
 import { GridLoader } from 'react-spinners';
-import { connect } from 'react-redux';
 import RegistrationForm from '../../Components/Registration/RegistrationForm'
-import {registerUser}  from '../../ducks/reducer'
+import Footer from '../../Components/Footer/Footer'
+import Header from '../../Components/Header/Header'
 
 class Registration extends Component {
     constructor(props) {
@@ -134,16 +134,18 @@ registerUser(){
         const {url, isUploading, firstname, lastname, username, email, phonenumber, password } =this.state;
         return (
           <div className='Login'>
+          <Header/>
             <RegistrationForm
               getSignedRequestFn={this.getSignedRequest}
               handleChangeFn={this.handleChange}
+              registerUserFn={this.registerUser}
             />
-                <input
+                {/* <input
                     value={firstname}
                     onChange={e => this.handleChange('firstname', e.target.value)}
                     placeholder= "First Name"
                     attrurl= {this.url}
-                    attrisUploading={this.isUploading}
+                    // attrisUploading={this.isUploading}
                 /> 
                 <input
                     value={lastname}
@@ -174,7 +176,7 @@ registerUser(){
             
                 <h1>Upload</h1>
                  <h1>{url}</h1>
-                <img src={url} alt="" width="450px" />
+                <img src={url} alt="url" width="450px" />
 
 
 
@@ -204,7 +206,8 @@ registerUser(){
                     /> : <p>Drop File or Click Here</p>}
                   </div>
                 )}
-              </Dropzone>
+              </Dropzone> */}
+              <Footer/>
 
 
 
@@ -213,9 +216,7 @@ registerUser(){
     }
 }
 
-let mapDispatchToProps = {
-  registerUser
-}
 
 
-export default connect (null, mapDispatchToProps)(Registration);
+
+export default Registration

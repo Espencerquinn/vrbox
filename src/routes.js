@@ -1,9 +1,8 @@
 import React from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import HomePage from './Views/HomePage/HomePage'
 import Registration from './Views/Registration/Registration'
 import Login from './Views/Login/Login'
-import App from './App'
 import Dashboard from './Views/Dashboard/Dashboard'
 import UpdateUser from './Views/UpdateUser/UpdateUser'
 import addProperty from './Views/Add Property/addProperty'

@@ -1,4 +1,8 @@
 const bcrypt = require('bcryptjs')
+const { SECRET_KEY } = process.env;
+const stripe = require('stripe')(SECRET_KEY)
+
+
 
 module.exports = {
     registerUser: async (req, res) => {
@@ -19,9 +23,6 @@ module.exports = {
         catch(error){
             console.log(error)
         }
-
-
-
     },
     login: async (req, res) => {
         console.log('login endpoint hit', req.body)
@@ -75,6 +76,58 @@ module.exports = {
         req.session.destroy();
         res.sendStatus(200)
     },
+    // sendmessage: (req, res) => {
+    //     res.header('Content-Type', 'application/json');
+    //     client.messages
+    //         .create({
+    //         from: '+14804053025',
+    //         to: req.body.to,
+    //         body: req.body.body
+    //         })
+    //         .then(() => {
+    //         res.send(JSON.stringify({ success: true }));
+    //         })
+    //         .catch(err => {
+    //         console.log(err);
+    //         res.send(JSON.stringify({ success: false }));
+    //         });
+    // },
+    chargeUser: (req, res, next) => {
+        //convert amount to pennies 
+        const amountArray = req.body.amount.toString().split('');
+        const pennies = [];
+        for (var i = 0; i < amountArray.length; i++) {
+          if(amountArray[i] === ".") {
+            if (typeof amountArray[i + 1] === "string") {
+              pennies.push(amountArray[i + 1]);
+            } else {
+              pennies.push("0");
+            }
+            if (typeof amountArray[i + 2] === "string") {
+              pennies.push(amountArray[i + 2]);
+            } else {
+              pennies.push("0");
+            }
+              break;
+          } else {
+              pennies.push(amountArray[i])
+          }
+        }
+        const convertedAmt = parseInt(pennies.join(''));
+      
+        const charge = stripe.charges.create({
+        amount: convertedAmt, // amount in cents, again
+        currency: 'usd',
+        source: req.body.token.id,
+        description: 'Test charge from react app'
+      }, function(err, charge) {
+          if (err) return res.sendStatus(500)
+          return res.sendStatus(200);
+        // if (err && err.type === 'StripeCardError') {
+        //   // The card has been declined
+        // }
+      });
+      },
     updateUser: (req, res) => {
         const db = req.app.get('db');
         const id = req.params.id;
@@ -89,4 +142,20 @@ module.exports = {
             console.log(err);
         })
     },
+    // sendMessage: (req, res) => {
+    //     res.header('Content-Type', 'application/json');
+    //     client.messages
+    //     .create({
+    //         from: '+14804053025',
+    //         to: req.body.to,
+    //         body: req.body.body
+    //     })
+    //     .then(() => {
+    //         res.send(JSON.stringify({ success: true }));
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //         res.send(JSON.stringify({ success: false }));
+    //     });
+    // },
 };
