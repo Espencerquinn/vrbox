@@ -19,9 +19,6 @@ import './album.scss';
 
 
 
-
-
-
 const styles = theme => ({
   appBar: {
     position: 'relative',
@@ -152,9 +149,7 @@ function album(props) {
                     <Typography gutterBottom variant="h5" component="h2">
                       {card.name}
                     </Typography>
-                    <Typography>
-                      {card.price}
-                    </Typography>
+                  
                     <Typography>
                       {card.address}
                     </Typography>

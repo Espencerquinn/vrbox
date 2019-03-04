@@ -8,7 +8,8 @@ import step3 from '../How it works/step3.png'
 export default class howitworks extends Component {
   render() {
     return (
-      <div className="howitworks">HOW IT WORKS
+      <div className="howitworks">
+      <div className="text">HOW IT WORKS
           <div className="steps">
                 <div className="step1">
                     <div className="image">
@@ -50,6 +51,7 @@ export default class howitworks extends Component {
                         Share with Client
                     </div>
                 </div>
+        </div>
         </div>
       </div>
     )

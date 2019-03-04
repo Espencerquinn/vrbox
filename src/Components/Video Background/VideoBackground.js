@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import videoHome from './videoHome.mp4'
 import './VideoBackground.scss';
 
+
 export default class videoBackground extends Component {
   render() {
     return (
