@@ -123,7 +123,7 @@ app.post('/api/messages', (req, res) => {
     .create({
       from: '+14804053025',
       to: req.body.to,
-      body: req.body.body + " http://heyspence.com/VR"
+      body: req.body.body + " https://heyspence.com/VR"
     })
     .then(() => {
       res.send(JSON.stringify({ success: true }));
