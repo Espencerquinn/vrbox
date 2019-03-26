@@ -84,7 +84,7 @@ class RegistrationForm extends React.Component {
 
   handlePost = async() => {
     console.log('were here')
-   const res = await axios.post('/api/registerUser', this.props.userObj)
+   const res = await axios.post('/auth/register', this.props.userObj)
   console.log(res)
   }
 
