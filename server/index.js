@@ -4,7 +4,7 @@ const massive = require("massive");
 const ctrl = require('./controller');
 const sessions = require('express-session')
 const bodyParser = require('body-parser');
-const cors = require('cors');
+// const cors = require('cors');
 // const pino = require('express-pino-logger')();
 
 // const app =rs module.exports = express();
@@ -18,7 +18,7 @@ const app = express();
 //body parser & cors
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors())
+// app.use(cors())
 // app.use(pino);
 
 
@@ -100,6 +100,10 @@ app.get('/api/signs3', (req, res) => {
 //properties
 app.get('/api/properties', ctrl.getProperties)
 app.delete('/api/properties/:id', ctrl.deleteProperty)
+
+//property join/match
+app.get('/api/vrproperties/:id', ctrl.match_properties);
+
 
 //update user info
 // app.put('/api/user/{id}', ctrl.updateUser)

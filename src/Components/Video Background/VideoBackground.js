@@ -8,7 +8,7 @@ export default class videoBackground extends Component {
     return (
       <div className="videoTop">
           <div className="Header">
-          Sell Luxury Homes Faster 
+          Sell Luxury Homes <br></br>FASTER 
           </div>
           
           <div class="overlay">
@@ -19,7 +19,7 @@ export default class videoBackground extends Component {
              
             autoPlay loop muted
             type="video/mp4"
-            width="100%" height="100%"
+            // width="100%" height="100%"
             >
           
             <source src={videoHome} type='video/mp4'/>

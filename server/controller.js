@@ -142,6 +142,19 @@ module.exports = {
             console.log(err);
         })
     },
+        match_properties: (req, res) => {
+            const db = req.app.get('db');
+            const { id } = req.params
+            console.log(req.params)
+            db.properties.match_properties([id])
+
+            .then(properties => {res.status(200).send(properties)
+            console.log(properties)
+            })
+
+            .catch(err => {console.log(err)})
+        },
+
     // sendMessage: (req, res) => {
     //     res.header('Content-Type', 'application/json');
     //     client.messages

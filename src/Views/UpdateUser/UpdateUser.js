@@ -66,7 +66,7 @@ handleChange= (prop, val) => {
 
   render() {
     console.log("USER OBJECT:")
-    console.log(this.state.user)
+    // console.log(this.state.user)
     const {user} = this.state
     return (
           
@@ -88,8 +88,8 @@ handleChange= (prop, val) => {
 
               />
               <input
-                className="fullname"
-                onChange={e => this.handleFullnameUpdate(e.target.value)}
+                className="firstname"
+                onChange={e => this.handleChange({firstname: e.target.value})}
                 placeholder={user.firstname}
                 value={this.state.firstname}
               />
@@ -99,38 +99,7 @@ handleChange= (prop, val) => {
                 placeholder={user.lastname}
                 value={this.state.lastname}
               />
-              <InputMask
-                className="staff_entry phone"
-                mask="+1 (999) 999-9999"
-                maskChar={null}
-                placeholder={user.phonenumber}
-                value={this.state.phonenumber}
-                onChange={e => this.setState({ phonenumber: e.target.value })}
-              />
-              <input
-                className="staff_entry email"
-                onChange={e => this.setState({ Email: e.target.value })}
-                placeholder="Email"
-                value={this.state.Email}
-              />
-              <input
-                className="staff_entry location"
-                onChange={e =>
-                  this.setState({ DefaultLocation: e.target.value })
-                }
-                placeholder="Room #"
-                value={this.state.DefaultLocation}
-              />
-              <input
-                className="staff_entry title"
-                onChange={e => this.setState({ Title: e.target.value })}
-                placeholder="Title"
-                value={this.state.Title}
-              />
-              <div
-                className="submit_new_staff_plus"
-                onClick={this.submitValidation}
-              />
+              
             </div>
             <div className='updateUser-buttons'>
                     <Link to='/'><button className='form-button' onClick={() => this.handleClear()}>Cancel</button></Link>

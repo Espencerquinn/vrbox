@@ -93,16 +93,21 @@ class Dashboard extends Component {
             console.log("SESSION", res.data.user)
               this.setState({user: res.data.user})
           })
-          axios.get('/api/properties')
-            .then((res) => {
-                this.setState({
-                    propertyList: res.data
-                })
-            })
+          // axios.get('/api/properties')
+          //   .then((res) => {
+          //       this.setState({
+          //           propertyList: res.data
+          //       })
+          //   })
 
+          //   .catch(err => console.log("error:"+ err))
+          axios.get(`/api/properties/${this.props.match.params.property}`)
+            .then((res) => {
+             this.setState({
+                propertyList: res.data
+            })
+        })
             .catch(err => console.log("error:"+ err))
-          
-    
         }
 
     handleChange(prop, val) {
